@@ -11,8 +11,10 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <Link className="navbar-brand" to="/">LeaveSystem</Link>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark bg-opacity-90 shadow-sm px-4 py-2">
+      <Link className="navbar-brand fw-bold fs-4" to="/">
+        <i className="bi bi-calendar-check-fill me-2"></i>LeaveSystem
+      </Link>
 
       <button
         className="navbar-toggler"
@@ -27,29 +29,45 @@ export default function Navbar() {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav ms-auto">
+        <ul className="navbar-nav ms-auto align-items-lg-center">
 
           {!user && (
             <>
-              {/* Signup Dropdown */}
+              {/* Signup */}
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                  Signup
+                  <i className="bi bi-person-plus me-1"></i> Signup
                 </a>
                 <ul className="dropdown-menu dropdown-menu-end">
-                  <li><Link className="dropdown-item" to="/signup?role=admin">Signup as Admin</Link></li>
-                  <li><Link className="dropdown-item" to="/signup?role=employee">Signup as Employee</Link></li>
+                  <li>
+                    <Link className="dropdown-item" to="/signup?role=admin">
+                      <i className="bi bi-person-badge me-2"></i>Admin
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/signup?role=employee">
+                      <i className="bi bi-person me-2"></i>Employee
+                    </Link>
+                  </li>
                 </ul>
               </li>
 
-              {/* Login Dropdown */}
+              {/* Login */}
               <li className="nav-item dropdown">
                 <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                  Login
+                  <i className="bi bi-box-arrow-in-right me-1"></i> Login
                 </a>
                 <ul className="dropdown-menu dropdown-menu-end">
-                  <li><Link className="dropdown-item" to="/login?role=admin">Login as Admin</Link></li>
-                  <li><Link className="dropdown-item" to="/login?role=employee">Login as Employee</Link></li>
+                  <li>
+                    <Link className="dropdown-item" to="/login?role=admin">
+                      <i className="bi bi-person-badge me-2"></i>Admin
+                    </Link>
+                  </li>
+                  <li>
+                    <Link className="dropdown-item" to="/login?role=employee">
+                      <i className="bi bi-person me-2"></i>Employee
+                    </Link>
+                  </li>
                 </ul>
               </li>
             </>
@@ -58,29 +76,37 @@ export default function Navbar() {
           {user && (
             <>
               <li className="nav-item">
-                <Link className="nav-link" to="/">Dashboard</Link>
+                <Link className="nav-link" to="/">
+                  <i className="bi bi-house-door-fill me-1"></i>Dashboard
+                </Link>
               </li>
 
               {user.role === 'employee' && (
                 <>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/apply">Apply</Link>
+                    <Link className="nav-link" to="/apply">
+                      <i className="bi bi-journal-plus me-1"></i>Apply
+                    </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/my-leaves">My Leaves</Link>
+                    <Link className="nav-link" to="/my-leaves">
+                      <i className="bi bi-card-list me-1"></i>My Leaves
+                    </Link>
                   </li>
                 </>
               )}
 
               {user.role === 'admin' && (
                 <li className="nav-item">
-                  <Link className="nav-link" to="/admin">Admin Panel</Link>
+                  <Link className="nav-link" to="/admin">
+                    <i className="bi bi-ui-checks-grid me-1"></i>Admin Panel
+                  </Link>
                 </li>
               )}
 
               <li className="nav-item">
-                <button className="btn btn-sm btn-danger ms-2" onClick={handleLogout}>
-                  Logout
+                <button className="btn btn-sm btn-outline-light ms-3" onClick={handleLogout}>
+                  <i className="bi bi-box-arrow-right me-1"></i>Logout
                 </button>
               </li>
             </>
