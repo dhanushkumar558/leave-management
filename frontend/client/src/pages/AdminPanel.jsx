@@ -4,6 +4,8 @@ import { API, getToken } from '../utils';
 
 export default function AdminPanel() {
   const [requests, setRequests] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
 
   const fetchData = () => {
     axios
@@ -22,12 +24,17 @@ export default function AdminPanel() {
     await axios.put(`${API}/leave/status/${id}`, { status }, {
       headers: { Authorization: `Bearer ${getToken()}` },
     });
-    fetchData();
+    fetchData(); // refreshes list and shows 'actioned'
   };
+
+  // Pagination Logic
+  const totalPages = Math.ceil(requests.length / pageSize);
+  const paginatedRequests = requests.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
     <div className="container mt-5">
       <h3>Admin Panel - All Leave Requests</h3>
+      
       <table className="table table-bordered mt-3">
         <thead>
           <tr>
@@ -41,7 +48,7 @@ export default function AdminPanel() {
           </tr>
         </thead>
         <tbody>
-          {requests.map((req) => (
+          {paginatedRequests.map((req) => (
             <tr key={req.id}>
               <td>{req.name}</td>
               <td>{req.leave_type}</td>
@@ -54,17 +61,40 @@ export default function AdminPanel() {
                 </span>
               </td>
               <td>
-                {req.status === 'pending' && (
+                {req.status === 'pending' ? (
                   <>
                     <button onClick={() => updateStatus(req.id, 'approved')} className="btn btn-sm btn-success me-2">Approve</button>
                     <button onClick={() => updateStatus(req.id, 'rejected')} className="btn btn-sm btn-danger">Reject</button>
                   </>
+                ) : (
+                  <span className="text-muted">Actioned</span>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Pagination Controls */}
+      <div className="d-flex justify-content-between align-items-center mt-3">
+        <button
+          className="btn btn-outline-secondary btn-sm"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(currentPage - 1)}
+        >
+          &laquo; Prev
+        </button>
+
+        <span>Page {currentPage} of {totalPages}</span>
+
+        <button
+          className="btn btn-outline-secondary btn-sm"
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(currentPage + 1)}
+        >
+          Next &raquo;
+        </button>
+      </div>
     </div>
   );
 }
